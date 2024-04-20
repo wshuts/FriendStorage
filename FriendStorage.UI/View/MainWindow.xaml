@@ -40,11 +40,15 @@
                 SelectedItem="{Binding SelectedFriendEditViewModel, Mode=TwoWay}" 
                 Grid.Row="1" Grid.RowSpan="2" Grid.Column="2" Background="Black">
       <TabControl.ItemContainerStyle>
-        <Style TargetType="TabItem">
+        <Style TargetType="TabItem" BasedOn="{StaticResource {x:Type TabItem}}">
           <Style.Triggers>
             <Trigger Property="IsSelected" Value="True">
               <Setter Property="FontWeight" Value="Bold"/>
             </Trigger>
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self},
+              Path=Content.Friend.IsChanged}" Value="True">
+              <Setter Property="Background" Value="{StaticResource IsChangedBackgroundBrush}"/>
+            </DataTrigger>
           </Style.Triggers>
         </Style>
       </TabControl.ItemContainerStyle>
