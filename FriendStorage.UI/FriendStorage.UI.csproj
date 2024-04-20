@@ -43,6 +43,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -99,7 +100,9 @@
     <Compile Include="Wrapper\ChangeTrackingCollection.cs" />
     <Compile Include="Wrapper\FriendEmailWrapper.cs" />
     <Compile Include="Wrapper\FriendWrapper.cs" />
+    <Compile Include="Wrapper\IValidatableTrackingObject.cs" />
     <Compile Include="Wrapper\ModelWrapper.cs" />
+    <Compile Include="Wrapper\NotifyDataErrorInfoBase.cs" />
     <Page Include="Styles\Brushes.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
