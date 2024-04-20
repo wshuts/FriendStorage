@@ -3,6 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:behaviors="clr-namespace:FriendStorage.UI.Behaviors"
+             xmlns:controls="clr-namespace:FriendStorage.UI.View.Controls"
              mc:Ignorable="d"
              d:DesignHeight="350" d:DesignWidth="700"
              Background="#333333">
@@ -15,6 +17,7 @@
       <RowDefinition Height="Auto"/>
       <RowDefinition Height="Auto"/>
       <RowDefinition Height="*"/>
+      <RowDefinition Height="Auto"/>
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
     <Grid.ColumnDefinitions>
@@ -60,15 +63,19 @@
       <Button Command="{Binding AddEmailCommand}" Style="{StaticResource AddButtonStyle}" HorizontalAlignment="Right"/>
       <Button Command="{Binding RemoveEmailCommand}" Style="{StaticResource RemoveButtonStyle}" HorizontalAlignment="Right"/>
     </StackPanel>
+
     <DataGrid ItemsSource="{Binding Friend.Emails}" SelectedItem="{Binding SelectedEmail,Mode=TwoWay}" Grid.Row="6" 
-              Grid.Column="1" Grid.ColumnSpan="4" Margin="0 5" Width="538">
+            behaviors:DataGridChangeBehavior.IsActive="True"  Grid.Column="1" Grid.ColumnSpan="4" Margin="0 5 0 0" Width="538">
       <DataGrid.Columns>
         <DataGridTextColumn Header="Email" Binding="{Binding Email,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Width="300"/>
         <DataGridTextColumn Header="Comment" Binding="{Binding Comment,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Width="*"/>
       </DataGrid.Columns>
     </DataGrid>
 
-    <StackPanel Grid.Row="7" Grid.ColumnSpan="4" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom">
+    <controls:ChangeTrackingCollectionInfo DataContext="{Binding Friend.Emails}"
+       Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="4"/>
+
+    <StackPanel Grid.Row="8" Grid.ColumnSpan="4" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom">
       <Button Content="Save" Command="{Binding SaveCommand}" Margin="5"/>
       <Button Content="Reset" Command="{Binding ResetCommand}" Margin="5"/>
       <Button Content="Delete" Command="{Binding DeleteCommand}" Margin="5"/>
