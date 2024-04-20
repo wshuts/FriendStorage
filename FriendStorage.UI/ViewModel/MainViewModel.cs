@@ -6,6 +6,7 @@ using FriendStorage.UI.Events;
 using FriendStorage.UI.View.Services;
 using Microsoft.Practices.Prism.PubSubEvents;
 using System;
+using System.ComponentModel;
 
 namespace FriendStorage.UI.ViewModel
 {
@@ -14,6 +15,7 @@ namespace FriendStorage.UI.ViewModel
     private readonly IEventAggregator _eventAggregator;
     private readonly IMessageDialogService _messageDialogService;
     private IFriendEditViewModel _selectedFriendEditViewModel;
+
     private Func<IFriendEditViewModel> _friendEditViewModelCreator;
 
     public MainViewModel(IEventAggregator eventAggregator,
@@ -38,6 +40,17 @@ namespace FriendStorage.UI.ViewModel
       NavigationViewModel.Load();
     }
 
+    public void OnClosing(CancelEventArgs e)
+    {
+      if(FriendEditViewModels.Any(f=>f.Friend.IsChanged))
+      {
+        var result = _messageDialogService.ShowYesNoDialog("Close application?",
+          "You'll lose your changes if you close this application. Close it?",
+          MessageDialogResult.No);
+        e.Cancel = result == MessageDialogResult.No;
+      }
+    }
+
     public ICommand CloseFriendTabCommand { get; private set; }
 
     public ICommand AddFriendCommand { get; set; }
@@ -56,6 +69,8 @@ namespace FriendStorage.UI.ViewModel
         OnPropertyChanged();
       }
     }
+
+    public bool IsChanged => FriendEditViewModels.Any(f => f.Friend.IsChanged);
 
     private void OnAddFriendExecute(object obj)
     {
