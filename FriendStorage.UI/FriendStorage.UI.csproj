@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>FriendStorage.UI</RootNamespace>
     <AssemblyName>FriendStorage.UI</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -61,7 +61,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Behaviors\ChangeBehavior.cs" />
+    <Compile Include="Behaviors\DataGridChangeBehavior.cs" />
     <Compile Include="Command\DelegateCommand.cs" />
+    <Compile Include="Converters\ComboBoxOriginalValueConverter.cs" />
+    <Compile Include="Converters\DatePickerOriginalValueConverter.cs" />
     <Compile Include="DataProvider\FriendDataProvider.cs" />
     <Compile Include="DataProvider\IFriendDataProvider.cs" />
     <Compile Include="DataProvider\Lookups\FriendGroupLookupProvider.cs" />
@@ -76,6 +80,9 @@
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\NavigationViewModel.cs" />
     <Compile Include="ViewModel\Observable.cs" />
+    <Compile Include="View\Controls\ChangeTrackingCollectionInfo.xaml.cs">
+      <DependentUpon>ChangeTrackingCollectionInfo.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\FriendEditView.xaml.cs">
       <DependentUpon>FriendEditView.xaml</DependentUpon>
     </Compile>
@@ -94,6 +101,10 @@
     <Compile Include="Wrapper\FriendWrapper.cs" />
     <Compile Include="Wrapper\ModelWrapper.cs" />
     <Page Include="Styles\Brushes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\ControlBaseStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -121,11 +132,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Styles\TabItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Styles\TextBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Styles\ToolTip.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Controls\ChangeTrackingCollectionInfo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
