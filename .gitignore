@@ -1,2 +1,5 @@
 packages/
 *.suo
+bin/
+obj/
+*.user
