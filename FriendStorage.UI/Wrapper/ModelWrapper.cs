@@ -1,23 +1,26 @@
 ﻿using FriendStorage.UI.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace FriendStorage.UI.Wrapper
 {
   public class ModelWrapper<T> : Observable, IRevertibleChangeTracking
   {
-    private readonly Dictionary<string, object> _originalValues;
+    private Dictionary<string, object> _originalValues;
 
-    private readonly List<IRevertibleChangeTracking> _trackingObjects;
+    private List<IRevertibleChangeTracking> _trackingObjects;
 
     public ModelWrapper(T model)
     {
       if (model == null)
       {
-        throw new ArgumentNullException(nameof(model));
+        throw new ArgumentNullException("model");
       }
       Model = model;
       _originalValues = new Dictionary<string, object>();
@@ -35,7 +38,6 @@ namespace FriendStorage.UI.Wrapper
       {
         trackingObject.AcceptChanges();
       }
-      // ReSharper disable once ExplicitCallerInfoArgument
       OnPropertyChanged("");
     }
 
@@ -43,21 +45,20 @@ namespace FriendStorage.UI.Wrapper
     {
       foreach (var originalValueEntry in _originalValues)
       {
-        typeof(T).GetProperty(originalValueEntry.Key)?.SetValue(Model, originalValueEntry.Value);
+        typeof(T).GetProperty(originalValueEntry.Key).SetValue(Model, originalValueEntry.Value);
       }
       _originalValues.Clear();
       foreach (var trackingObject in _trackingObjects)
       {
         trackingObject.RejectChanges();
       }
-      // ReSharper disable once ExplicitCallerInfoArgument
       OnPropertyChanged("");
     }
 
     protected TValue GetValue<TValue>([CallerMemberName] string propertyName = null)
     {
-      var propertyInfo = Model.GetType().GetProperty(propertyName ?? throw new ArgumentNullException(nameof(propertyName)));
-      return (TValue)propertyInfo?.GetValue(Model);
+      var propertyInfo = Model.GetType().GetProperty(propertyName);
+      return (TValue)propertyInfo.GetValue(Model);
     }
 
     protected TValue GetOriginalValue<TValue>(string propertyName)
@@ -75,12 +76,12 @@ namespace FriendStorage.UI.Wrapper
     protected void SetValue<TValue>(TValue newValue,
       [CallerMemberName] string propertyName = null)
     {
-      var propertyInfo = Model.GetType().GetProperty(propertyName ?? throw new ArgumentNullException(nameof(propertyName)));
-      var currentValue = propertyInfo?.GetValue(Model);
+      var propertyInfo = Model.GetType().GetProperty(propertyName);
+      var currentValue = propertyInfo.GetValue(Model);
       if (!Equals(currentValue, newValue))
       {
         UpdateOriginalValue(currentValue, newValue, propertyName);
-        propertyInfo?.SetValue(Model, newValue);
+        propertyInfo.SetValue(Model, newValue);
         OnPropertyChanged(propertyName);
         OnPropertyChanged(propertyName + "IsChanged");
       }
@@ -91,7 +92,6 @@ namespace FriendStorage.UI.Wrapper
       if (!_originalValues.ContainsKey(propertyName))
       {
         _originalValues.Add(propertyName, currentValue);
-        // ReSharper disable once ExplicitCallerInfoArgument
         OnPropertyChanged("IsChanged");
       }
       else
@@ -99,7 +99,6 @@ namespace FriendStorage.UI.Wrapper
         if (Equals(_originalValues[propertyName], newValue))
         {
           _originalValues.Remove(propertyName);
-          // ReSharper disable once ExplicitCallerInfoArgument
           OnPropertyChanged("IsChanged");
         }
       }
