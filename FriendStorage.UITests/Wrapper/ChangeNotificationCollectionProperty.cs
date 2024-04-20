@@ -57,6 +57,14 @@ namespace FriendStorage.UITests.Wrapper
       CheckIfModelEmailsCollectionIsInSync(wrapper);
     }
 
+    [TestMethod]
+    public void ShouldBeInSyncAfterClearingEmails()
+    {
+      var wrapper = new FriendWrapper(_friend);
+      wrapper.Emails.Clear();
+      CheckIfModelEmailsCollectionIsInSync(wrapper);
+    }
+
     private void CheckIfModelEmailsCollectionIsInSync(FriendWrapper wrapper)
     {
       Assert.AreEqual(_friend.Emails.Count, wrapper.Emails.Count);
