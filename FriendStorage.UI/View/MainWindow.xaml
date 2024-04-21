@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:view="clr-namespace:FriendStorage.UI.View"
         Title="FriendStorage" FontSize="{StaticResource DefaultFontSize}"
-        MinHeight="650" MinWidth="900" Height="650" Width="900"
+        MinHeight="650" MinWidth="900" Height="650" Width="920"
         WindowStartupLocation="CenterScreen"
         Background="Black" Icon="..\FriendStorageIcon.png">
   <Grid>
@@ -49,13 +49,17 @@
               Path=Content.Friend.IsChanged}" Value="True">
               <Setter Property="Background" Value="{StaticResource IsChangedBackgroundBrush}"/>
             </DataTrigger>
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self},
+              Path=Content.Friend.IsValid}" Value="False">
+              <Setter Property="Background" Value="{StaticResource HasErrorBackgroundBrush}"/>
+            </DataTrigger>
           </Style.Triggers>
         </Style>
       </TabControl.ItemContainerStyle>
       <TabControl.ItemTemplate>
         <DataTemplate>
           <StackPanel Orientation="Horizontal">
-            <TextBlock Text="{Binding Friend.FirstName}"/>
+            <TextBlock Text="{Binding Friend.FirstName,ValidatesOnNotifyDataErrors=False}"/>
             <TextBlock Text="{Binding Friend.LastName}" Margin="5 0 20 0"/>
             <Button Content="X" Command="{Binding RelativeSource=
                                   {RelativeSource FindAncestor,
